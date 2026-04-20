@@ -1,0 +1,38 @@
+---
+- name: Configure MySQL server
+  hosts: mysql
+  become: yes
+
+  tasks:
+    - name: Install PyMySQL library
+      ansible.builtin.pip:
+        name: PyMySQL
+
+    - name: Install MySQL server
+      ansible.builtin.package:
+        name: mysql-server
+        state: present
+
+    - name: Start and enable MySQL server
+      ansible.builtin.service:
+        name: mysqld
+        state: started
+        enabled: yes
+
+    - name: Set MySQL root password
+      community.mysql.mysql_user:
+        name: root
+        host: "%"
+        password: ExpenseApp@1
+        priv: "*.*:ALL,GRANT"
+        login_unix_socket: /var/lib/mysql/mysql.sock
+
+    - name: Check MySQL connection
+      community.mysql.mysql_info:
+        login_user: root
+        login_password: ExpenseApp@1
+      register: mysql_info
+
+    - name: Print output
+      ansible.builtin.debug:
+        msg: "{{ mysql_info }}"
