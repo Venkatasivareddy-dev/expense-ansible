@@ -3,7 +3,7 @@
   become: yes
   tasks:
   - name: Install MySQLl liberies
-    ansible.builtin.pips:
+    ansible.builtin.pip:
       name: PyMySQL
       executable: pip3.9
 
