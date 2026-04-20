@@ -8,6 +8,10 @@
       ansible.builtin.pip:
         name: PyMySQL
 
+    - name: Install cryptography library
+      ansible.builtin.pip:
+        name: cryptography
+
     - name: Install MySQL server
       ansible.builtin.package:
         name: mysql-server
